@@ -50,12 +50,12 @@
 
 <script setup>
 import { onMounted} from "vue";
-import api from "../http/api";
+import { allTasks1 } from "../http/task-api";
 
 
 // console.log(api);
 onMounted (async () => {
-  const {data} = await api.get('/tasks')
+  const {data} = await allTasks()
   console.log(data)
 })
 </script>
