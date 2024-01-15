@@ -46,3 +46,16 @@
         </div>
     </main>
 </template>
+
+
+<script setup>
+import { onMounted} from "vue";
+import api from "../http/api";
+
+
+// console.log(api);
+onMounted (async () => {
+  const {data} = await api.get('/tasks')
+  console.log(data)
+})
+</script>
