@@ -7,8 +7,9 @@
                     <input 
                         class="editable-task" 
                         type="text" 
-                        @keyup.esc="$event => isEdit = false" 
+                        @keyup.esc="undo" 
                         v-focus
+                        v-model="editTask"
                         
                         @keyup.enter="updateTask"
                     />
@@ -35,6 +36,7 @@ const props = defineProps({
 const completedClass = computed(()=> props.task.is_completed ? "completed" : "")
 
 ///Edit
+const editTask =ref(props.task.name)
 const isEdit = ref(false)
 const vFocus = {
     mounted : (el) => el.focus()
@@ -48,5 +50,10 @@ const updateTask = event =>{
     emit('updated', updatedTask)
     isEdit.value = false;
 
+}
+
+const undo = () => {
+    isEdit.value = false
+    editTask.value = props.task.name
 }
 </script>
