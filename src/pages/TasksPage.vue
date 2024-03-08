@@ -23,7 +23,7 @@
                             
                         </button>
                     </div>
-
+        
                     <!-- List of completed tasks -->
                     <Tasks :tasks="completedTask"
                         :show="CompletedTaskIsVisible && ShowCompletedTasks"
@@ -58,7 +58,7 @@ const showToggleCompletedBtn = computed(
 )
 
 const CompletedTaskIsVisible = computed(
-    () => uncompletedTasks.value.length === 0 || completedTask.value.i8 > 0
+    () => uncompletedTasks.value.length === 0 || completedTask.value.length > 0
 )
 
 const ShowCompletedTasks = ref(false);
