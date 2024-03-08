@@ -1,7 +1,11 @@
 <template>
     <li class="list-group-item py-3">
         <div class="d-flex justify-content-start align-items-center">
-            <input class="form-check-input mt-0" :class="completedClass" type="checkbox" :checked="task.is_completed"  />
+            <input class="form-check-input mt-0" :class="completedClass"
+                type="checkbox" 
+                :checked="task.is_completed"
+                @change="markTaskAsCompleted"  
+            />
             <div class="ms-2 flex-grow-1 " @dblclick="$event => isEdit = true"  :class="completedClass" title="Double click the text to edit or remove">
                 <div class="relative" v-if="isEdit">
                     <input 
@@ -43,7 +47,7 @@ const vFocus = {
 }
 
 //Update Task
-const emit = defineEmits(['updated'])
+const emit = defineEmits(['updated', 'completed'])
 const updateTask = event =>{
 
     const updatedTask = { ...props.task, name: event.target.value}
@@ -55,5 +59,13 @@ const updateTask = event =>{
 const undo = () => {
     isEdit.value = false
     editTask.value = props.task.name
+}
+
+// Mark Task As Completed or Un-Completed
+const markTaskAsCompleted = event => {
+    
+    const updatedTask = { ...props.task, is_completed: !props.task.is_completed }
+    emit('completed', updatedTask)
+
 }
 </script>

@@ -7,7 +7,10 @@
                     <NewTask @added="handelAddedTask" />
                     
                     <!-- List of uncompleted tasks -->
-                    <Tasks :tasks="uncompletedTasks" @updated="handleUpdateTask" />
+                    <Tasks :tasks="uncompletedTasks" 
+                        @updated="handleUpdateTask"
+                        @completed="handleCompleteTask"
+                    />
 
                     <!-- Show toggle button -->
                     <div class="text-center my-3" v-show="showToggleCompletedBtn">
@@ -22,7 +25,11 @@
                     </div>
 
                     <!-- List of completed tasks -->
-                    <Tasks :tasks="completedTask" :show="CompletedTaskIsVisible && ShowCompletedTasks" />
+                    <Tasks :tasks="completedTask"
+                        :show="CompletedTaskIsVisible && ShowCompletedTasks"
+                        @updated="handleUpdateTask"
+                        @completed="handleCompleteTask"
+                    />
                     
                 </div>
             </div>
@@ -33,7 +40,7 @@
 
 <script setup>
 import { onMounted, ref, computed } from "vue";
-import { allTasks, createTask, updateTask } from "../http/task-api";
+import { allTasks, createTask, updateTask, completeTask } from "../http/task-api";
 import Tasks from "../components/tasks/Tasks.vue";
 import NewTask from "../components/tasks/NewTask.vue"
 
@@ -72,4 +79,16 @@ const handleUpdateTask = async (task) => {
     currentTask.name = updatedTask.data.name
 
 }
+// Mark Task As Completed or Un-Completed
+const handleCompleteTask = async (task) => {
+    console.log('handleCompleteTask', task)
+    const {data : completedTask } = await completeTask(task.id, {
+        is_completed: task.is_completed
+    })
+
+    const currentTask = tasks.value.find(item => item.id === task.id)
+    currentTask.is_completed = completedTask.data.is_completed
+
+}
+
 </script>
