@@ -23,7 +23,11 @@
             
         </div>
         <!-- Task Action -->
-        <TaskActions @edit="$event => isEdit = true" v-show="!isEdit" />
+        <TaskActions 
+            @edit="$event => isEdit = true" 
+            v-show="!isEdit" 
+            @remove="RemoveTask"
+        />
         
     </li>
 </template>
@@ -47,7 +51,7 @@ const vFocus = {
 }
 
 //Update Task
-const emit = defineEmits(['updated', 'completed'])
+const emit = defineEmits(['updated', 'completed', 'removed'])
 const updateTask = event =>{
 
     const updatedTask = { ...props.task, name: event.target.value}
@@ -67,5 +71,10 @@ const markTaskAsCompleted = event => {
     const updatedTask = { ...props.task, is_completed: !props.task.is_completed }
     emit('completed', updatedTask)
 
+}
+
+// Remove Task
+const RemoveTask = event =>{
+    emit('removed', props.task)
 }
 </script>
