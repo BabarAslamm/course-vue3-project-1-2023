@@ -45,11 +45,21 @@ import { allTasks, createTask, updateTask, completeTask, deleteTask } from "../h
 import Tasks from "../components/tasks/Tasks.vue";
 import NewTask from "../components/tasks/NewTask.vue"
 
+//Pinia || Store || Integration
+import { useTaskStore } from "../stores/task";
+import { storeToRefs } from "pinia";
+
+const store = useTaskStore();
+const { task } = storeToRefs(store);
+//Pinia || Store || Integration
+
 const tasks = ref([])
 
 onMounted (async () => {
   const {data} = await allTasks()
   tasks.value  = data.data
+
+  console.log('Pinia store', task.value)
 })
 
 const uncompletedTasks = computed(()=> tasks.value.filter(task => !task.is_completed))
