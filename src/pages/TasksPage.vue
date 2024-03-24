@@ -50,7 +50,7 @@ import { useTaskStore } from "../stores/task";
 import { storeToRefs } from "pinia";
 
 const store = useTaskStore();
-const { task } = storeToRefs(store);
+const { task, uncompletedTasks, completedTask } = storeToRefs(store);
 //Pinia || Store || Integration
 
 const tasks = ref([])
@@ -60,10 +60,12 @@ onMounted (async () => {
   tasks.value  = data.data
 
   console.log('Pinia store', task.value)
+  console.log('completeTasks', completeTasks.value)
+  console.log('uncompletedTask', uncompletedTask.value)
 })
 
-const uncompletedTasks = computed(()=> tasks.value.filter(task => !task.is_completed))
-const completedTask = computed(()=> tasks.value.filter(task => task.is_completed))
+// const uncompletedTasks = computed(()=> tasks.value.filter(task => !task.is_completed))
+// const completedTask = computed(()=> tasks.value.filter(task => task.is_completed))
 const showToggleCompletedBtn = computed(
     ()=> completedTask.value.length > 0 && uncompletedTasks.value.length > 0
 )
