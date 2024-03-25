@@ -51,17 +51,15 @@ import { storeToRefs } from "pinia";
 
 const store = useTaskStore();
 const { task, uncompletedTasks, completedTask } = storeToRefs(store);
+const { fetchAllTasks } = store
 //Pinia || Store || Integration
 
 const tasks = ref([])
 
 onMounted (async () => {
-  const {data} = await allTasks()
-  tasks.value  = data.data
+  
+ await fetchAllTasks()
 
-  console.log('Pinia store', task.value)
-  console.log('completeTasks', completeTasks.value)
-  console.log('uncompletedTask', uncompletedTask.value)
 })
 
 // const uncompletedTasks = computed(()=> tasks.value.filter(task => !task.is_completed))
